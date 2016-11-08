@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1470792212063
+Build-Jdk: 1.7.0_80
+Built-By: syarbeat
+Bundle-ManifestVersion: 2
+Bundle-Name: Camel :: Demo :: Camel-JMS-JDBC:: SIK-DataSource
+Bundle-SymbolicName: org.apache.camel.db.sik-datasource
+Bundle-Version: 2.0.0
+Created-By: Apache Maven Bundle Plugin
+Export-Service: javax.sql.DataSource;datasource.name=MysqlDS
+Import-Package: com.mysql.jdbc.jdbc2.optional,javax.sql,org.osgi.service
+ .blueprint;version="[1.0.0,2.0.0)"
+Tool: Bnd-1.50.0

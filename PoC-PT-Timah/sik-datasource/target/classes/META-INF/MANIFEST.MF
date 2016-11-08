@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1470813352117
+Build-Jdk: 1.8.0_31
+Built-By: Asus X455LA
+Bundle-ManifestVersion: 2
+Bundle-Name: PoC:: Demo :: PT.Timah:: SIK-DataSource
+Bundle-SymbolicName: org.apache.camel.db.sik-datasource
+Bundle-Version: 2.0.0
+Created-By: Apache Maven Bundle Plugin
+Export-Service: javax.sql.DataSource;datasource.name=MysqlSIKDS
+Import-Package: com.mysql.jdbc.jdbc2.optional,javax.sql,org.osgi.service
+ .blueprint;version="[1.0.0,2.0.0)"
+Tool: Bnd-1.50.0

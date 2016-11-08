@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:camel-cxf="http://camel.apache.org/schema/blueprint/cxf"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+
+<!-- Imported OSGi services include the Transaction manager and JDBC DataSource -->
+    <reference id="mysql-db" interface="javax.sql.DataSource" availability="mandatory" filter="(datasource.name=MysqlDS)" />
+   
+    <cm:property-placeholder persistent-id="com" update-strategy="reload">
+        <cm:default-properties>
+            <!-- Endpoints -->
+            <cm:property name="restEndpoint" value="cxfrs:bean:poc?bindingStyle=SimpleConsumer"/>
+
+            <!-- Service URL-->
+            <cm:property name="apiRootUrl" value="/api"/>
+        </cm:default-properties>
+    </cm:property-placeholder>
+    
+    
+
+    <camelContext  id="services-poc" xmlns="http://camel.apache.org/schema/blueprint">
+   		  <!-- <route id="pocTimah-route">
+   		  		<from uri="cxfrs:bean:poc?bindingStyle=SimpleConsumer"/>
+   		  				<process ref="queryProcessor"/>
+   		  			  <log message="Before send query ${body}"/>
+   		  			   <to uri="jdbc:mysql-db?resetAutoCommit=false" />
+    				<log message="process row ${body}"/>
+   		  		
+			</route> -->
+			<route id="pocTimah-route">
+   		  		<from uri="cxfrs:bean:poc?bindingStyle=SimpleConsumer"/>
+   		  				<process ref="employeeProcessor"/>
+   		  			  <log message="Before send query ${body}"/>
+   		  			   <to uri="jdbc:mysql-db?resetAutoCommit=false" />
+    				<log message="process row ${body}"/>
+   		  		
+			</route>	
+			
+				
+    </camelContext>
+    
+    <bean id="queryProcessor" class="com.mitratex.timah.poc.processor.QueryProcessor"/>
+    <bean id="rowProcessor" class="com.mitratex.timah.poc.processor.RowProcessor"/>
+    <bean id="employeeProcessor" class="com.mitratex.timah.poc.processor.EmployeeProcessor"/>
+    
+    
+    <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="brokerURL" value="tcp://localhost:61616" />
+        <property name="userName" value="admin" />
+        <property name="password" value="admin" />
+    </bean>
+    
+    <bean id="employeeSvc" class="com.mitratex.timah.poc.service.impl.EmployeeServiceImpl"/>
+    <bean id="rescentSapSvc" class="com.mitratex.timah.poc.service.impl.RescentSapServiceImpl"/>
+
+    <camel-cxf:rsServer id="poc" address="${apiRootUrl}/poc">
+        <camel-cxf:serviceBeans>
+          <ref component-id="rescentSapSvc" />
+          <ref component-id="employeeSvc" />
+        </camel-cxf:serviceBeans>
+        <camel-cxf:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </camel-cxf:providers>
+    </camel-cxf:rsServer>
+    
+
+</blueprint>

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1470708479526
+Build-Jdk: 1.7.0_80
+Built-By: syarbeat
+Bundle-ManifestVersion: 2
+Bundle-Name: Routing To Insert The Rescent File
+Bundle-SymbolicName: jboss-fuse-demo
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.mitratex.vst;uses:="org.apache.camel";version="1.0.0
+ .SNAPSHOT"
+Import-Package: org.apache.activemq.camel.component;version="[5.7,6)",or
+ g.apache.camel;version="[2.10,3)",org.apache.camel.osgi;version="[2.10,
+ 3)",org.osgi.service.blueprint;version="[1.0.0,2.0.0)"
+Tool: Bnd-1.50.0
